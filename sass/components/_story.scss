@@ -1,0 +1,78 @@
+.story {
+    width: 75%;
+    margin: 0 auto;
+    margin-bottom: 8rem;
+    box-shadow: 0 3rem 6rem rgba($color-black, .15);
+    background-color: rgba($color-white, .6);
+    border-radius: 3px;
+    padding: 3rem;
+    padding-left: 9rem;
+    font-size: $default-font-size;
+    transform: skewX(-12deg);
+
+    @include respond(tab-port) {
+        width: 100%;
+        padding: 4rem;
+        padding-left: 7rem;
+    }
+    @include respond(phone) {
+        transform: skewX(0);
+    }
+
+    &__shape {
+        height: 15rem;// it is necessary to shape outside work
+        width: 15rem;// it is necessary to shape outside work
+        background-color: rgba($color-grey-dark, .2);
+        float: left;// it is necessary to shape outside work
+        transform: translateX(-3rem) skewX(12deg);
+        position: relative;
+        overflow: hidden;
+        border-radius: 50%; // this is only for firefox because it does not support clip-path, so we apply it by this property.
+
+        @supports (clip-path: polygon(0 0)) or (-webkit-clip-path: polygon(0 0)) {
+            -webkit-shape-outside: circle(50% at 50% 50%);// fixing some browsers
+            shape-outside: circle(50% at 50% 50%);// for shaping outside text to wrap around like a circle    
+            -webkit-clip-path: circle(50% at 50% 50%);// for fixing some browsers
+            clip-path: circle(50% at 50% 50%); // this is for making the own shape like a circle
+            border-radius: none; // because clip-path is supported and it is not necessary here.
+        }
+
+        @include respond(phone) {
+            transform: translateX(-3rem) skewX(0);
+        }
+    }
+    &__image {
+        height: 100%;
+        transform: translateX(-4rem) scale(1.4);
+        transition: all .5s;
+        backface-visibility: hidden;
+    }
+    &__text {
+        transform: skewX(12deg);
+         
+        @include respond(phone) {
+            transform: skewX(0);
+        }
+    }
+    &__caption {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, 20%);
+        color: $color-white;
+        text-transform: uppercase;
+        text-align: center;
+        font-size: 1.7rem;
+        opacity: 0;
+        transition: all .5s;
+        backface-visibility: hidden;
+    }
+    &:hover &__caption {
+        transform: translate(-50%, -50%);
+        opacity: 1;
+    }
+    &:hover &__image {
+        transform: translateX(-4rem) scale(1);
+        filter: blur(3px) brightness(80%);
+    }
+}
